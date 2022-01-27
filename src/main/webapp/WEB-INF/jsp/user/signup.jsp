@@ -19,7 +19,7 @@
 	
 		<section class="d-flex justify-content-center align-items-center">
 			<div class="mr-3 pt-3">
-				<img src="/static/image/phone.png" width=300px>
+				<img src="/static/image/phone_instar.png" width=300px>
 			</div>
 			<div class="ml-3 bg-light p-3">
 				<div class="text-secondary text-center">친구들의 사진과 동영상을 보려면

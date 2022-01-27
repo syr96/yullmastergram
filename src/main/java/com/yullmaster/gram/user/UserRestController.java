@@ -1,5 +1,6 @@
 package com.yullmaster.gram.user;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,15 @@ public class UserRestController {
 			@RequestParam("password") String password) {
 		
 		int count = userBO.addUser(email, name, loginId, password);
+		
+		Map<String, String> result = new HashMap<>();
+		if(count == 1) {
+			result.put("result", "success");
+		} else {
+			result.put("result", "fail");
+		}
+		
+		return result;
 		
 	}
 }
