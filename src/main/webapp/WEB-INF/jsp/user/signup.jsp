@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>yullmaster 회원가입</title>
+<title>yullmaster-gram 회원가입</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -13,16 +13,15 @@
 <link rel="stylesheet" href="/static/css/style.css" type="text/css">
 </head>
 <body>
-	<div id="wrap">
-	
-	<c:import url="/WEB-INF/jsp/include/header.jsp" />
-	
-		<section class="d-flex justify-content-center align-items-center">
-			<div class="mr-3 pt-3">
-				<img src="/static/image/phone_instar.png" width=300px>
+	<div id="wrap">	
+		<c:import url="/WEB-INF/jsp/include/header.jsp" />
+		<section class="mt-3 d-flex justify-content-center align-items-center">
+			<div class="mr-3 my-3">
+				<img src="/static/image/phone_instar.png" width=350px>
 			</div>
-			<div class="ml-3 bg-light p-3">
-				<div class="text-secondary text-center">친구들의 사진과 동영상을 보려면
+			<div class="ml-3 bg-light p-4 border border-secondary">
+				<h1>yullmaster-gram</h1>
+				<div class="mt-3 text-secondary text-center">친구들의 사진과 동영상을 보려면
 				<br>가입하세요.</div>
 				<hr>
 				<input type="text" class="form-control" placeholder="이메일" id="emailInput">
@@ -44,6 +43,17 @@
 	
 	<script>
 		$(document).ready(function() {
+			
+			// 1. 중복확인을 눌렀는지 안눌렀는지의 변수
+			// 2. 중복이 되었는지 안되었는지의 변수
+			// 두 조건 모두 true 일 때 가입하기가 성립된다
+			
+			$("#doubleCheckLoginId").on("click", function() {
+				var loginId = $("#loginIdInput").val();
+				
+				
+			});
+			
 			
 			$("#joinBtn").on("click", function() {
 				var email = $("#emailInput").val();
@@ -77,6 +87,21 @@
 					return;
 				}
 				
+				$.ajax({
+					type:"post",
+					url:"/user/sign_up",
+					data:{"email":email, "name":name, "loginId":loginId, "password":password},
+					success:function(data) {
+						if(data.result == "success") {
+							location.href = "/user/signin_view";
+						} else {
+							alert("회원가입 실패");
+						}
+					},
+					error:function() {
+						alert("에러 발생");
+					}
+				});
 				
 			});
 		});

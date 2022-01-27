@@ -24,4 +24,19 @@
 			, now()
 		)
 	</insert>
+	
+	<select id="selectUserId" parameterType="string" resultType="com.yullmaster.gram.user.model.User">
+		SELECT
+			`id`
+			, `email`
+			, `name`
+			, `loginId`
+			, `password`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`user`
+		WHERE
+			`loginId` = #{loginId}
+	</select>
 </mapper>

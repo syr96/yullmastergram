@@ -5,6 +5,6 @@
 	margin:auto;
 }
 
-section {
-	background-color:#EDEDED;
+.imageFoursquare {
+	overflow:hidden;
 }
