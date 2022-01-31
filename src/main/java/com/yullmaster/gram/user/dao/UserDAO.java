@@ -14,5 +14,10 @@ public interface UserDAO {
 			@Param("loginId") String loginId,
 			@Param("password") String password);
 	
-	public User selectUserId(@Param("loginId") String loginId);
+	public int selectCountById(@Param("loginId") String loginId);
+	// mapper에서 가져온 값을 int 로 불러온다
+	
+	public User selectUserByIdPassword(
+			@Param("loginId") String loginId,
+			@Param("password") String password);
 }

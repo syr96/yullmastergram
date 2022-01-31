@@ -14,7 +14,6 @@
 </head>
 <body>
 	<div id="wrap">	
-		<c:import url="/WEB-INF/jsp/include/header.jsp" />
 		<section class="mt-3 d-flex justify-content-center align-items-center">
 			<div class="mr-3 my-3">
 				<img src="/static/image/phone_instar.png" width=350px>
@@ -24,16 +23,21 @@
 				<div class="mt-3 text-secondary text-center">친구들의 사진과 동영상을 보려면
 				<br>가입하세요.</div>
 				<hr>
-				<input type="text" class="form-control" placeholder="이메일" id="emailInput">
-				<input type="text" class="form-control mt-3" placeholder="이름" id="nameInput">
-				<div class="input-group mt-3">
-					<input type="text" class="form-control" placeholder="아이디" id="loginIdInput">
-					<button type="button" class="btn btn-info" id="doubleCheckLoginId">중복확인</button>
-				</div>
-				<input type="password" class="form-control mt-3" placeholder="비밀번호" id="passwordInput">
-				<input type="password" class="form-control mt-3" placeholder="비밀번호 확인" id="passwordConfirmInput">
-				
-				<button type="button" class="btn btn-info btn-block mt-3" id="joinBtn">가입하기</button>
+				<form id="signUpForm">
+					<input type="text" class="form-control" placeholder="이메일" id="emailInput">
+					<input type="text" class="form-control mt-3" placeholder="이름" id="nameInput">
+					<div class="input-group mt-3">
+						<input type="text" class="form-control" placeholder="아이디" id="loginIdInput">
+						<button type="button" class="btn btn-info" id="isDuplicateBtn">중복확인</button>
+					</div>
+					<div id="duplicateDiv" class="d-none"><small class="text-danger">중복된 ID 입니다.</small></div>
+					<div id="noneDuplicateDiv" class="d-none"><small class="text-success">사용 가능한 ID 입니다.</small></div>
+					<input type="password" class="form-control mt-3" placeholder="비밀번호" id="passwordInput">
+					<input type="password" class="form-control mt-3" placeholder="비밀번호 확인" id="passwordConfirmInput">
+					<small id="errorPassword" class="text-danger d-none">비밀번호가 일치하지 않습니다.</small>
+					
+					<button type="submit" class="btn btn-info btn-block mt-3" id="signUpBtn">가입하기</button>
+				</form>
 			</div>
 		</section>
 		
@@ -48,16 +52,23 @@
 			// 2. 중복이 되었는지 안되었는지의 변수
 			// 두 조건 모두 true 일 때 가입하기가 성립된다
 			
-			$("#doubleCheckLoginId").on("click", function() {
-				var loginId = $("#loginIdInput").val();
-				
-				
+			var isIdCheck = false;
+			var isDuplicateId = true;
+			
+			// 아이디에 입력이 있을 경우, 중복 체크 상태를 초기화 한다
+			$("#loginIdInput").on("input", function() {
+				$("#duplicateDiv").addClass("d-none");
+				$("#noneDuplicateDiv").addClass("d-none");
+				isIdCheck = false;
+				isDuplicateId = true;
 			});
 			
-			
-			$("#joinBtn").on("click", function() {
-				var email = $("#emailInput").val();
-				var name = $("#nameInput").val();
+			$("#signUpForm").on("submit", function(e) {
+				
+				e.preventDefault();
+				
+				var email = $("#emailInput").val().trim();
+				var name = $("#nameInput").val().trim();
 				var loginId = $("#loginIdInput").val();
 				var password = $("#passwordInput").val();
 				var passwordConfirm = $("#passwordConfirmInput").val();
@@ -87,6 +98,18 @@
 					return;
 				}
 				
+				// 중복체크 했는지 확인
+				if(isIdCheck == false) {
+					alert("중복체크를 진행하세요");
+					return;
+				}
+				
+				// 중복이 되었는지 안되었는지?
+				if(isDuplicate == true) {
+					alert("아이디가 중복되었습니다.")
+					return;
+				}
+				
 				$.ajax({
 					type:"post",
 					url:"/user/sign_up",
@@ -103,6 +126,38 @@
 					}
 				});
 				
+			});
+			
+			$("#isDuplicateBtn").on("click", function() {
+				var loginId = $("#loginIdInput").val();
+				
+				if(loginId == "") {
+					alert("아이디를 입력하세요");
+					return;
+				}
+				
+				$.ajax({
+					type:"get",
+					url:"/user/is_duplicate_id",
+					data:{"loginId":loginId},
+					success:function(data) {
+						isIdCheck = true;
+						
+						if(data.is_duplicate) {
+							isDuplicate = true;
+							$("#duplicateDiv").removeClass("d-none");
+							$("#noneDuplicateDiv").addClass("d-none");
+						} else {
+							isDuplicate = false;
+							$("#duplicateDiv").addClass("d-none");
+							$("#noneDuplicateDiv").removeClass("d-none");
+						}
+						// isDuplicate = data.is_duplicate;
+					},
+					error:function(e){
+						alert("중복확인 실패");
+					}
+				});
 			});
 		});
 	</script>

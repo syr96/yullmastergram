@@ -14,7 +14,6 @@
 </head>
 <body>
 	<div id="wrap">	
-		<c:import url="/WEB-INF/jsp/include/header.jsp" />
 		<section class="mt-3 d-flex justify-content-center align-items-center">
 			<div class="mr-3 my-3">
 				<img src="/static/image/phone_instar.png" width=350px>
@@ -22,10 +21,11 @@
 			<div class="ml-3">
 				<div class="bg-light p-4 border border-secondary">
 					<h1>yullmaster-gram</h1>
-					<input type="text" class="form-control mt-5" placeholder="아이디" id="loginIdInput">
-					<input type="password" class="form-control mt-3" placeholder="비밀번호" id="passwordInput">
-					
-					<button type="button" class="btn btn-info btn-block mt-3" id="loginBtn">로그인</button>
+					<form id="loginForm">
+						<input type="text" class="form-control mt-5" placeholder="아이디" id="loginIdInput">
+						<input type="password" class="form-control mt-3" placeholder="비밀번호" id="passwordInput">					
+						<button type="submit" class="btn btn-info btn-block mt-3" id="loginBtn">로그인</button>
+					</form>
 					<hr>
 					<div class="text-center">
 						<a href="#">비밀번호를 잊으셨나요?</a>
@@ -37,9 +37,45 @@
 				</div>
 			</div>
 		</section>
-		
 		<c:import url="/WEB-INF/jsp/include/footer.jsp" />
-		
 	</div>
+	<script>
+		$(document).ready(function() {
+			
+			$("#loginForm").on("submit", function(e) {
+				
+				e.preventDefault();
+				
+				var loginId = $("#loginIdInput").val();
+				var password = $("#passwordInput").val();
+				
+				if(loginId == "") {
+					alert("아이디를 입력해주세요.");
+					return;
+				}
+				
+				if(password == "") {
+					alert("비밀번호를 입력해주세요.");
+					return;
+				}
+				
+				$.ajax({
+					type:"post",
+					url:"/user/sign_in",
+					data:{"loginId":loginId, "password":password},
+					success:function(data) {
+						if(data.result == "success") {
+							location.href = "/post/timeline"
+						} else {
+							alert("아이디 비밀번호를 확인하세요");
+						}
+					},
+					error:function(e) {
+						alert("로그인 실패");
+					}
+				});
+			});
+		});
+	</script>
 </body>
 </html>
