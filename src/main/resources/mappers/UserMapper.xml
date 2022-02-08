@@ -5,7 +5,8 @@
 
 <mapper namespace="com.yullmaster.gram.user.dao.UserDAO">
 	<insert id="insertUser" parameterType="map">
-		INSERT INTO `user`
+		INSERT INTO 
+			`user`
 		(
 			`email`
 			, `name`
@@ -29,13 +30,7 @@
 	<!-- parameterType: loginId 를 가져와야 함으로 string 으로 설정
 		resultType: 있다 없다를 판단하기 위해 int 로 설정 -->
 		SELECT
-			`id`
-			, `email`
-			, `name`
-			, `loginId`
-			, `password`
-			, `createdAt`
-			, `updatedAt`
+			count(*)
 		FROM
 			`user`
 		WHERE
