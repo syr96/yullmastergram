@@ -26,5 +26,39 @@
 		</section>
 		<c:import url="/WEB-INF/jsp/include/footer.jsp" />
 	</div>
+	<script>
+		$(document).ready(function() {
+			$("#uploadBtn").on("click", function() {
+				let content = $("#contentInput").val().trim();
+				
+				if(content == "") {
+					alert("내용을 입력하세요");
+					return;
+				}
+				
+				var formData = new FormData();
+				formData.append("content", content);
+				formData.append("file", $("#fileInput")[0].files[0]);
+				
+				$.ajax({
+					type:"post",
+					url:"/post/create",
+					enctype:"mutipart.form-data", // 파일 업로드 필수
+					processData:false, // 파일 업로드 필수
+					contentType:false, // 파일 업로드 필수
+					success:function(data) {
+						if(data.result == "success") {
+							location.href = "/post/timeline";
+						} else {
+							alert("업로드 실패");
+						}
+					},
+					error:function() {
+						alert("에러 발생");
+					}
+				});
+			});
+		});
+	</script>
 </body>
 </html>
