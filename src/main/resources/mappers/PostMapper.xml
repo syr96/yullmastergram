@@ -4,7 +4,7 @@
 
 <mapper namespace="com.yullmaster.gram.post.dao.PostDAO">
 	<insert id="insertPost" parameterType="map">
-		INSERT INTO 'post`
+		INSERT INTO `post`
 		(
 			`userId`
 			, `userName`

@@ -43,7 +43,8 @@
 				$.ajax({
 					type:"post",
 					url:"/post/create",
-					enctype:"mutipart.form-data", // 파일 업로드 필수
+					data:formData,
+					enctype:"mutipart/form-data", // 파일 업로드 필수
 					processData:false, // 파일 업로드 필수
 					contentType:false, // 파일 업로드 필수
 					success:function(data) {
