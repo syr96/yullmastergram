@@ -30,6 +30,9 @@ public class PostRestController {
 		
 		HttpSession session = request.getSession();
 		
+		// userId, userName
+		// (Integer) : Object -> int 로 받기 위해 변환함
+		// (String) : Object -> String 으로 받기 위해 변환함
 		int userId = (Integer)session.getAttribute("userId");
 		String userName = (String)session.getAttribute("userName");
 		

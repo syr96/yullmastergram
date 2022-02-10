@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	<header class="d-flex justify-content-between bg-light">
-		<h1><a href="/post/timeline" class="ml-3 text-decoration-none text-dark">yullmaster-gram</a></h1>
+		<h1><a href="/post/timeline" class="ml-3 text-dark">yullmaster-gram</a></h1>
 		<div class="d-flex align-items-center">
 			<c:choose>
 				<c:when test="${not empty userId }">

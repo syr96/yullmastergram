@@ -19,7 +19,7 @@
 				<img src="/static/image/phone_instar.png" width=350px>
 			</div>
 			<div class="ml-3">
-				<div class="bg-light p-4 border border-secondary">
+				<div class="p-4 border rounded">
 					<h1>yullmaster-gram</h1>
 					<form id="loginForm">
 						<input type="text" class="form-control mt-5" placeholder="아이디" id="loginIdInput">
@@ -31,7 +31,7 @@
 						<a href="#">비밀번호를 잊으셨나요?</a>
 					</div>
 				</div>
-				<div class="mt-3 bg-light border border-secondary p-3 d-flex justify-content-center">
+				<div class="mt-3 border rounded p-3 d-flex justify-content-center">
 					<div>계정이 없으신가요?</div>
 					<a href="/user/signup_view">가입하기</a>
 				</div>
