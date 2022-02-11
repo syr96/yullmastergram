@@ -7,7 +7,7 @@
 		INSERT INTO `post`
 		(
 			`userId`
-			, `userName`
+			, `userLoginId`
 			, `imagePath`
 			, `content`
 			, `createdAt`
@@ -16,11 +16,25 @@
 		VALUES
 		(
 			#{userId}
-			, #{userName}
+			, #{userLoginId}
 			, #{imagePath}
 			, #{content}
 			, now()
 			, now()
 		)
 	</insert>
+	
+	<select id="selectPostlist" resultType="com.yullmaster.gram.post.model.Post">
+		SELECT
+			`id`
+			, `userId`
+			, `userLoginId`
+			, `imagePath`
+			, `content`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`post`
+		ORDER BY `id` DESC
+	</select>
 </mapper>

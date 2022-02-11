@@ -19,7 +19,7 @@
 				<img src="/static/image/phone_instar.png" width=350px>
 			</div>
 			<div class="ml-3 p-4 border rounded">
-				<h1>yullmaster-gram</h1>
+				<h1><a href="/user/signin_view" class="text-dark nav-link">yullmaster-gram</a></h1>
 				<div class="mt-3 text-secondary text-center">친구들의 사진과 동영상을 보려면
 				<br>가입하세요.</div>
 				<hr>
@@ -116,6 +116,9 @@
 					data:{"email":email, "name":name, "loginId":loginId, "password":password},
 					success:function(data) {
 						if(data.result == "success") {
+							alert("회원가입 완료"
+									+ "\n이름: " + name
+									+ "\n아이디: " + loginId);
 							location.href = "/user/signin_view";
 						} else {
 							alert("회원가입 실패");

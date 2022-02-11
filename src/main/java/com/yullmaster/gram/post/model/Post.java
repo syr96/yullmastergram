@@ -5,7 +5,7 @@ import java.util.Date;
 public class Post {
 	private int id;
 	private int userId;
-	private String userName;
+	private String userLoginId;
 	private String imagePath;
 	private String content;
 	private Date createdAt;
@@ -23,11 +23,11 @@ public class Post {
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
-	public String getUserName() {
-		return userName;
+	public String getUserLoginId() {
+		return userLoginId;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUserLoginId(String userLoginId) {
+		this.userLoginId = userLoginId;
 	}
 	public String getImagePath() {
 		return imagePath;

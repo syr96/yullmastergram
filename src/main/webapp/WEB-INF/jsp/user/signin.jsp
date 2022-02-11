@@ -20,7 +20,7 @@
 			</div>
 			<div class="ml-3">
 				<div class="p-4 border rounded">
-					<h1>yullmaster-gram</h1>
+					<h1><a href="/user/signin_view" class="text-dark nav-link">yullmaster-gram</a></h1>
 					<form id="loginForm">
 						<input type="text" class="form-control mt-5" placeholder="아이디" id="loginIdInput">
 						<input type="password" class="form-control mt-3" placeholder="비밀번호" id="passwordInput">					
@@ -28,12 +28,11 @@
 					</form>
 					<hr>
 					<div class="text-center">
-						<a href="#">비밀번호를 잊으셨나요?</a>
+						<a href="#">비밀번호를 잊으셨나요?</a> <!-- 링크 밑줄 없애기 -->
 					</div>
 				</div>
 				<div class="mt-3 border rounded p-3 d-flex justify-content-center">
-					<div>계정이 없으신가요?</div>
-					<a href="/user/signup_view">가입하기</a>
+					계정이 없으신가요? <a href="/user/signup_view">가입하기</a> <!-- 링크 밑줄 없애기 -->
 				</div>
 			</div>
 		</section>

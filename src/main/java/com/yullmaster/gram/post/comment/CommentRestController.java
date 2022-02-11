@@ -1,4 +1,4 @@
-package com.yullmaster.gram.post;
+package com.yullmaster.gram.post.comment;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,35 +11,29 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.yullmaster.gram.post.bo.PostBO;
+import com.yullmaster.gram.post.comment.bo.CommentBO;
 
 @RestController
-@RequestMapping("/post")
-public class PostRestController {
-	
+@RequestMapping("/post/comment")
+public class CommentRestController {
+
 	@Autowired
-	private PostBO postBO;
+	private CommentBO commentBO;
 	
 	@PostMapping("/create")
 	public Map<String, String> create(
-			@RequestParam("content") String content,
-			@RequestParam(value = "file", required = false) MultipartFile file,
+			@RequestParam("postId") int postId,
+			@RequestParam("comment") String comment,
 			HttpServletRequest request) {
 		
-		HttpSession session = request.getSession();
-		
-		// userId, userName
-		// (Integer) : Object -> int 로 받기 위해 변환함
-		// (String) : Object -> String 으로 받기 위해 변환함
+		HttpSession session =request.getSession();
 		int userId = (Integer)session.getAttribute("userId");
 		String userLoginId = (String)session.getAttribute("userLoginId");
 		
-		int count = postBO.addPost(userId, userLoginId, file, content);
+		int count = commentBO.addComment(postId, userId, userLoginId, comment);
 		
 		Map<String, String> result = new HashMap<>();
-		
 		if(count == 1) {
 			result.put("result", "success");
 		} else {
