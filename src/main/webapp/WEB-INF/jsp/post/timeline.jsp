@@ -63,6 +63,23 @@
 						<!-- 업로드한 사진 -->
 						<div class="text-center mt-3">
 							<img src="${post.imagePath }" class="rounded w-100">
+							
+							<!--
+							사진 등록시 내가 불러온 이미지 미리보기 기능 
+							<img src="" id="imgSection" class="w-100">
+							<script>
+								const reader = new FileReader();
+								
+								reader.onload = (readerEvent) => {
+									document.querySelector("#imgSection").setAttribute("src", readerEvent.target.result);
+								};
+								document.querySelector("#profileImage").addEventListener("change", (changeEvent) => {
+									const imgFile = changeEvent.target.files[0];
+									reader.readAsDataURL(imgFile);
+								});
+							</script>
+						 	-->
+						 	
 						</div>
 						
 						<!-- 좋아요 -->

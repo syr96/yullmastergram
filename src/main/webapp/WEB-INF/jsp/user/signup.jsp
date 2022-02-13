@@ -36,6 +36,13 @@
 					<input type="password" class="form-control mt-3" placeholder="비밀번호 확인" id="passwordConfirmInput">
 					<small id="errorPassword" class="text-danger d-none">비밀번호가 일치하지 않습니다.</small>
 					
+					<div class="input-group mt-3">
+						<input type="text" id="fileName" placeholder="프로필사진" class="form-control">
+						<label class="btn btn-info">
+							사진 추가<input type="file" style="display:none" id="uploadFile" name="uploadFile" onchange="javascript:document.getElementById('fileName').value=this.value">
+						</label>
+					</div>
+					
 					<button type="submit" class="btn btn-info btn-block mt-3" id="signUpBtn">가입하기</button>
 				</form>
 			</div>
