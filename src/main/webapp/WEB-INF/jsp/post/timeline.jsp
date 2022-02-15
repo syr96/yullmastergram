@@ -32,7 +32,7 @@
 				</div>
 			<!-- 글쓰기 end -->
 			
-			<c:forEach var="post" items="${postList }">
+			<c:forEach var="postDetail" items="${postList }">
 			<!-- 피드 start -->
 				<div class="border rounded mt-5">
 					<div class="m-3">
@@ -48,7 +48,7 @@
 									</a>
 								</div>
 								<div class="mr-3 nav">
-									<a href="#" class="nav-link text-dark">${post.userLoginId }</a> <!-- 게시글 작성자 피드로 이동 -->
+									<a href="#" class="nav-link text-dark">${postDetail.post.userLoginId }</a> <!-- 게시글 작성자 피드로 이동 -->
 								</div>
 							</div>
 							
@@ -62,7 +62,7 @@
 						
 						<!-- 업로드한 사진 -->
 						<div class="text-center mt-3">
-							<img src="${post.imagePath }" class="rounded w-100">
+							<img src="${postDetail.post.imagePath }" class="rounded w-100">
 							
 							<!--
 							사진 등록시 내가 불러온 이미지 미리보기 기능 
@@ -84,23 +84,32 @@
 						
 						<!-- 좋아요 -->
 						<div class="d-flex align-items-center nav">
-							<a href="#" class="likeBtn nav-link">
-								<i class="bi bi-heart text-dark likeIcon"></i>
+							<a href="#" class="likeBtn nav-link" data-post-id="${postDetail.post.id }">
+								<c:choose>
+									<c:when test="${postDetail.like }"> <!-- 이거 자체가 true 다 -->
+										<i class="bi bi-heart-fill likeIcon text-danger"></i> 
+									</c:when>
+									<c:otherwise>										
+										<i class="bi bi-heart text-dark likeIcon"></i>									
+									</c:otherwise>
+								</c:choose>
 							</a>
-							<span class="nav-link">좋아요 5개</span>
+							<span class="nav-link">좋아요 ${postDetail.likeCount }개</span>
 						</div>
 						
 						<!-- 계정, content -->
 						<div class="m-2">
-							<div><b>${post.userLoginId }</b> ${post.content }</div>
+							<div><b>${postDetail.post.userLoginId }</b> ${postDetail.post.content }</div>
 						</div>
 						
 						<!-- 댓글 start -->
 						<hr>
 						<div class="m-2">
-							<div class="mt-2">							
-								<b>yullmaster</b> ㅇㅂㅇ
-							</div>
+							<c:forEach var="comment" items="${postDetail.commentList }">
+								<div class="mt-2">							
+									<b>${comment.userLoginId }</b> ${comment.comment }
+								</div>
+							</c:forEach>
 						</div>
 						<!-- 댓글 end -->
 						
@@ -109,8 +118,8 @@
 							<c:choose>
 								<c:when test="${not empty userId }">
 									<b>${userLoginId }</b>
-									<input type="text" class="form-control border-0 bg-light mx-2" id="commentInput${post.id }">
-									<button class="btn btn-info commentBtn" data-post-id="${post.id }">댓글쓰기</button>
+									<input type="text" class="form-control border-0 bg-light mx-2" id="commentInput${postDetail.post.id }">
+									<button class="btn btn-light commentBtn" data-post-id="${postDetail.post.id }">댓글쓰기</button>
 								</c:when>
 								<c:otherwise>
 								</c:otherwise>
@@ -191,6 +200,11 @@
 				// "commentInput5"
 				let comment = $("#commentInput" + postId).val();
 				
+				if(comment == "") {
+					alert("댓글을 입력해주세요");
+					return;
+				}
+				
 				$.ajax({
 					type:"post",
 					url:"/post/comment/create",
@@ -206,7 +220,26 @@
 						alert("에러 발생");
 					}
 				});
+			});
+			
+			$(".likeBtn").on("click", function() {
+				let postId = $(this).data("post-id");
 				
+				$.ajax({
+					type:"get",
+					url:"/post/like",
+					data:{"postId":postId},
+					success:function(data) {
+						if(data.result == "success") {
+							location.reload();
+						} else {
+							alert("좋아요 실패");
+						}
+					},
+					error:function() {
+						alert("좋아요 에러");
+					}
+				});
 			});
 		});
 	</script>

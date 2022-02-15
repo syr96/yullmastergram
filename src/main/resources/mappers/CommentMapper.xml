@@ -23,4 +23,20 @@
 			, now()
 		)
 	</insert>
+	
+	<select id="selectCommentList" parameterType="int"
+	resultType="com.yullmaster.gram.post.comment.model.Comment">
+		SELECT
+			`id`
+			, `postId`
+			, `userId`
+			, `userLoginId`
+			, `comment`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`comment`
+		WHERE
+			`postId` = #{postId}
+	</select>
 </mapper>

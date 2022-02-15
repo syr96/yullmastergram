@@ -12,8 +12,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class FileManagerService {
 	
-	public final static String FILE_UPLOAD_PATH = "D:\\웹개발\\springProject\\spring\\upload\\image/";
+	public final static String FILE_UPLOAD_PATH = "D:\\석유림\\springProject\\image/";
 	// 지금 작성한 루트는 집 컴퓨터 루트이다
+	// "D:\\웹개발\\springProject\\spring\\upload\\image/"
 	
 	private static Logger logger = LoggerFactory.getLogger(FileManagerService.class);
 	
