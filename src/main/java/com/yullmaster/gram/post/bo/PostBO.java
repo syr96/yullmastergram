@@ -63,4 +63,9 @@ public class PostBO {
 		
 		// return postDAO.selectPostlist();
 	}
+	
+	public int deletePost(int id, int userId) {
+		
+		return postDAO.deletePost(id, userId);
+	}
 }

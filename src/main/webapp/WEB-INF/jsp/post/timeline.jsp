@@ -38,7 +38,7 @@
 					<div class="m-3">
 					
 						<!-- 프로필 사진, 계정, 삭제 start -->
-						<div class="d-flex justify-content-between">
+						<div class="d-flex justify-content-between align-items-center">
 							<!-- 프로필 사진, 작성자 계정 -->
 							<div class="d-flex align-items-center">
 								<div style="width: 50px; height: 50px; overflow: hidden" class="rounded-circle">
@@ -54,8 +54,23 @@
 							
 							<!-- 삭제 -->
 							<div>
-								<button type="button" class="d-none" id="deleteContentBtn">삭제</button>
-								<span class="img-icon"><i class="bi bi-trash" id="deleteContentBtnIcon"></i></span>
+								<a href="#" class="text-dark nav-link img-icon" data-toggle="modal" data-target="#exampleModalCenter">
+									<i class="bi bi-trash"></i>
+								</a>
+								<!-- Modal -->
+								<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+									<div class="modal-dialog modal-dialog-centered" role="document">
+								    	<div class="modal-content">
+								      		<div class="modal-body text-center">
+									        	삭제하시겠습니까?
+									      	</div>
+									      	<div class="modal-footer">
+										        <button type="button" class="btn btn-secondary noneDeleteBtn" data-dismiss="modal">아니오</button>
+										        <button type="button" class="btn btn-primary deleteBtn" data-post-id="${postDetail.post.id }">네</button>
+										    </div>
+								    	</div>
+								  	</div>
+								</div>
 							</div>
 						</div>
 						<!-- 프로필 사진, 계정, 삭제 end -->
@@ -87,10 +102,10 @@
 							<a href="#" class="likeBtn nav-link" data-post-id="${postDetail.post.id }">
 								<c:choose>
 									<c:when test="${postDetail.like }"> <!-- 이거 자체가 true 다 -->
-										<i class="bi bi-heart-fill likeIcon text-danger"></i> 
+											<i class="bi bi-heart-fill likeIcon text-danger"></i>
 									</c:when>
-									<c:otherwise>										
-										<i class="bi bi-heart text-dark likeIcon"></i>									
+									<c:otherwise>
+											<i class="bi bi-heart text-dark likeIcon"></i>
 									</c:otherwise>
 								</c:choose>
 							</a>
@@ -129,7 +144,7 @@
 					</div>
 				</div>
 			<!-- 피드 end -->
-			</c:forEach>				
+			</c:forEach>
 			</article>
 		</section>
 		<c:import url="/WEB-INF/jsp/include/footer.jsp" />
@@ -147,11 +162,6 @@
 				// uploadBtn 클릭 효과
 				$("#uploadBtn").click();
 				
-			});
-			
-			$("#deleteContentBtnIcon").on("click", function() {
-				// deleteContentBtn 클릭 효과
-				$("#deleteContentBtn").click();
 			});
 			
 			$("#uploadBtn").on("click", function() {
@@ -193,6 +203,20 @@
 				});
 			});
 			
+			$(".deleteBtn").on("click", function() {
+				let postId = $(this).data("post-id");
+				
+				$.ajax({
+					type:"get",
+					url:"/post/delete",
+					data:{"id":postId},
+					success:function(data) {
+						
+					}
+				});
+				
+			});
+			
 			$(".commentBtn").on("click", function() {
 				// postId, comment
 				let postId = $(this).data("post-id");
@@ -222,7 +246,31 @@
 				});
 			});
 			
-			$(".likeBtn").on("click", function() {
+			// 좋아요, 좋아요 취소 기능을 하나로 합침
+			$(".likeBtn").on("click", function(e) {
+				// a 태그의 # 이 가지고있는 고유의 기능을 없애준다
+				e.preventDefault();
+				
+				let postId = $(this).data("post-id");
+				
+				$.ajax({
+					type:"get",
+					url:"/post/like",
+					data:{"postId":postId},
+					success:function(data) {
+						location.reload();
+					},
+					error:function() {
+						alert("좋아요 에러");
+					}
+				});
+			});
+			
+			/* 좋아요, 좋아요 취소 기능을 나눔
+			$(".likeBtn").on("click", function(e) {
+				// a 태그의 # 이 가지고있는 고유의 기능을 없애준다
+				e.preventDefault();
+				
 				let postId = $(this).data("post-id");
 				
 				$.ajax({
@@ -241,6 +289,28 @@
 					}
 				});
 			});
+			
+			$(".unlikeBtn").on("click", function(e) {
+				e.preventDefault();
+				
+				let postId = $(this).data("post-id");
+				
+				$.ajax({
+					type:"get",
+					url:"/post/unlike",
+					data:{"postId":postId},
+					success:function(data) {
+						if(data.result == "fail") {
+							location.reload();
+						} else {
+							alert("좋아요 취소 실패");
+						}
+					},
+					error:function() {
+						alert("좋아요 취소 에러");
+					}
+				});
+			}); */
 		});
 	</script>
 </body>
