@@ -38,11 +38,25 @@
 		ORDER BY `id` DESC
 	</select>
 	
-	<delete id="deletePost">
+	<delete id="deletePost" parameterType="int">
 		DELETE FROM
 			`post`
 		WHERE
-			`id` = #{id}
-			AND `userId` = #{userId}
+			`id` = #{postId}
 	</delete>
+	
+	<select id="selectPost" parameterType="int" resultType="com.yullmaster.gram.post.model.Post">
+		SELECT
+			`id`
+			, `userId`
+			, `userLoginId`
+			, `imagePath`
+			, `content`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`post`
+		WHERE
+			`id` = #{postId}
+	</select>
 </mapper>

@@ -25,59 +25,6 @@
 						<div class="d-flex justify-content-between m-3">
 							<span class="img-icon"><i class="bi bi-image" id="imgBtn"></i></span>
 							<input type="file" id="fileInput" class="d-none">
-							<button type="button" class="d-none" id="uploadBtn">업로드하기</button>
-							<span class="img-icon"><i class="bi bi-upload" id="uploadBtnIcon"></i></span>
-						</div>
-					</div>
-				</div>
-			<!-- 글쓰기 end -->
-			
-			<c:forEach var="postDetail" items="${postList }">
-			<!-- 피드 start -->
-				<div class="border rounded mt-5">
-					<div class="m-3">
-					
-						<!-- 프로필 사진, 계정, 삭제 start -->
-						<div class="d-flex justify-content-between align-items-center">
-							<!-- 프로필 사진, 작성자 계정 -->
-							<div class="d-flex align-items-center">
-								<div style="width: 50px; height: 50px; overflow: hidden" class="rounded-circle">
-									<a href="#"> <!-- 게시글 작성자 피드로 이동 -->
-										<img src="/static/image/profile.jpg" style="width: 50px; height: auto;">
-										<!-- 프로필 사진은 초기 회원가입 시 등록 또는 수정 등록 가능 -->
-									</a>
-								</div>
-								<div class="mr-3 nav">
-									<a href="#" class="nav-link text-dark">${postDetail.post.userLoginId }</a> <!-- 게시글 작성자 피드로 이동 -->
-								</div>
-							</div>
-							
-							<!-- 삭제 -->
-							<div>
-								<a href="#" class="text-dark nav-link img-icon" data-toggle="modal" data-target="#exampleModalCenter">
-									<i class="bi bi-trash"></i>
-								</a>
-								<!-- Modal -->
-								<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-									<div class="modal-dialog modal-dialog-centered" role="document">
-								    	<div class="modal-content">
-								      		<div class="modal-body text-center">
-									        	삭제하시겠습니까?
-									      	</div>
-									      	<div class="modal-footer">
-										        <button type="button" class="btn btn-secondary noneDeleteBtn" data-dismiss="modal">아니오</button>
-										        <button type="button" class="btn btn-primary deleteBtn" data-post-id="${postDetail.post.id }">네</button>
-										    </div>
-								    	</div>
-								  	</div>
-								</div>
-							</div>
-						</div>
-						<!-- 프로필 사진, 계정, 삭제 end -->
-						
-						<!-- 업로드한 사진 -->
-						<div class="text-center mt-3">
-							<img src="${postDetail.post.imagePath }" class="rounded w-100">
 							
 							<!--
 							사진 등록시 내가 불러온 이미지 미리보기 기능 
@@ -94,7 +41,60 @@
 								});
 							</script>
 						 	-->
-						 	
+							
+							<button type="button" class="d-none" id="uploadBtn">업로드하기</button>
+							<span class="img-icon"><i class="bi bi-upload" id="uploadBtnIcon"></i></span>
+						</div>
+					</div>
+				</div>
+			<!-- 글쓰기 end -->
+			
+			<c:forEach var="postDetail" items="${postList }">
+			<!-- 피드 start -->
+				<div class="border rounded mt-5">
+					<div class="m-3">
+					
+						<!-- 프로필 사진, 계정, 삭제 start -->
+						<div class="d-flex justify-content-between align-items-center">
+							<!-- 프로필 사진, 작성자 계정 -->
+							<div class="d-flex align-items-center">
+								<div class="rounded-circle profile-image">
+									<a href="/post/history"> <!-- 게시글 작성자 피드로 이동 -->
+										<img src="/static/image/profile.jpg" class="profile">
+										<!-- 프로필 사진은 초기 회원가입 시 등록 또는 수정 등록 가능 -->
+									</a>
+								</div>
+								<div class="mr-3 nav">
+									<a href="/post/history" class="nav-link text-dark">${postDetail.post.userLoginId }</a> <!-- 게시글 작성자 피드로 이동 -->
+								</div>
+							</div>
+							
+							<!-- 삭제 -->
+							<c:choose>
+								<c:when test="${userId eq postDetail.post.userId }">
+									<div>
+										<a href="#" class="text-dark nav-link img-icon moreBtn" data-post-id="${postDetail.post.id }" data-toggle="modal" data-target="#exampleModalCenter">
+											<i class="bi bi-three-dots-vertical"></i>
+										</a>
+										<!-- Modal -->
+										<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+											<div class="modal-dialog modal-dialog-centered" role="document">
+										    	<div class="modal-content">
+										      		<div class="modal-body text-center">
+											        	<a href="#" id="deleteBtn" class="nav-link text-dark">삭제하기</a>
+											      	</div>
+										    	</div>
+										  	</div>
+										</div>
+									</div>
+								</c:when>
+							</c:choose>
+						</div>
+						<!-- 프로필 사진, 계정, 삭제 end -->
+						
+						<!-- 업로드한 사진 -->
+						<div class="text-center mt-3">
+							<img src="${postDetail.post.imagePath }" class="rounded w-100">
 						</div>
 						
 						<!-- 좋아요 -->
@@ -203,20 +203,6 @@
 				});
 			});
 			
-			$(".deleteBtn").on("click", function() {
-				let postId = $(this).data("post-id");
-				
-				$.ajax({
-					type:"get",
-					url:"/post/delete",
-					data:{"id":postId},
-					success:function(data) {
-						
-					}
-				});
-				
-			});
-			
 			$(".commentBtn").on("click", function() {
 				// postId, comment
 				let postId = $(this).data("post-id");
@@ -311,6 +297,37 @@
 					}
 				});
 			}); */
+			
+			$(".moreBtn").on("click", function(e) {
+				e.preventDefault();
+				
+				let postId = $(this).data("post-id");
+				
+				// postId 를 모달의 삭제하기 버튼에 값을 부여한다.
+				$("#deleteBtn").data("post-id", postId);
+				
+			});
+			
+			$("#deleteBtn").on("click", function(e) {
+				e.preventDefault();
+				
+				let postId = $(this).data("post-id");
+				$.ajax({
+					type:"get",
+					url:"/post/delete",
+					data:{"postId":postId},
+					success:function(data) {
+						if(data.result == "success") {
+							location.reload();
+						} else {
+							alert("삭제 실패");
+						}
+					},
+					error:function() {
+						alert("삭제 에러");
+					}
+				});
+			});
 		});
 	</script>
 </body>

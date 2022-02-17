@@ -9,9 +9,9 @@
 					<div class="nav">
 						<a href="/user/sign_out" class="nav-link text-dark">로그아웃</a>
 					</div>
-					<div style="width: 50px; height: 50px; overflow: hidden" class="mr-3 rounded-circle">
-						<a href="#"> <!-- 내 피드로 이동 -->
-							<img src="/static/image/profile.jpg" style="width: 50px; height: auto;">
+					<div class="mr-3 rounded-circle profile-image">
+						<a href="/post/history"> <!-- 내 피드로 이동 -->
+							<img src="/static/image/profile.jpg" class="profile">
 							<!-- 프로필 사진은 초기 회원가입 시 등록 또는 수정 등록 가능 -->
 						</a>
 					</div>

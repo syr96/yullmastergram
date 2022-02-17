@@ -64,8 +64,24 @@ public class PostBO {
 		// return postDAO.selectPostlist();
 	}
 	
-	public int deletePost(int id, int userId) {
+	public int deletePost(int postId, int userId) {
 		
-		return postDAO.deletePost(id, userId);
+		Post post = postDAO.selectPost(postId);
+		if(post.getUserId() != userId) {
+			// 0은 비정상적인 상황 -> fail 뜸 -> 삭제 실패 -> 아래 쿼리 작동안됨
+			return 0;
+		}
+		
+		// 좋아요 삭제
+		likeBO.deleteLikeByPostId(postId);
+		
+		// 댓글 삭제
+		commentBO.deleteComment(postId);
+		
+		// 파일 삭제
+		FileManagerService.removeFile(post.getImagePath());
+		
+		// 포스트 삭제
+		return postDAO.deletePost(postId);
 	}
 }

@@ -14,6 +14,20 @@
 <link rel="stylesheet" href="/static/css/style.css" type="text/css">
 </head>
 <body>
-
+	<div id="wrap">
+		<c:import url="/WEB-INF/jsp/include/header.jsp" />
+		<section>
+			<div class="mr-3 rounded-circle profile-image">
+				<a href="/post/history"> <!-- 내 피드로 이동 -->
+					<img src="/static/image/profile.jpg" class="profile">
+					<!-- 프로필 사진은 초기 회원가입 시 등록 또는 수정 등록 가능 -->
+				</a>
+			</div>
+			<div class="mr-3 nav">
+				<a href="/post/history" class="nav-link text-dark">${postDetail.post.userLoginId }</a> <!-- 게시글 작성자 피드로 이동 -->
+			</div>
+		</section>
+		<c:import url="/WEB-INF/jsp/include/footer.jsp" />
+	</div>
 </body>
 </html>
