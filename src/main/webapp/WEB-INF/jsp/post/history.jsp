@@ -16,16 +16,33 @@
 <body>
 	<div id="wrap">
 		<c:import url="/WEB-INF/jsp/include/header.jsp" />
-		<section>
-			<div class="mr-3 rounded-circle profile-image">
-				<a href="/post/history"> <!-- 내 피드로 이동 -->
-					<img src="/static/image/profile.jpg" class="profile">
-					<!-- 프로필 사진은 초기 회원가입 시 등록 또는 수정 등록 가능 -->
-				</a>
-			</div>
-			<div class="mr-3 nav">
-				<a href="/post/history" class="nav-link text-dark">${postDetail.post.userLoginId }</a> <!-- 게시글 작성자 피드로 이동 -->
-			</div>
+		<section class="d-flex justify-content-center mt-3">
+			<article class="col-6 border rounded">
+				<div class="d-flex align-items-center m-3">
+					<div class="rounded-circle profile-image">
+						<a href="/post/history"> <!-- 내 피드로 이동 -->
+							<img src="/static/image/profile.jpg" class="profile">
+							<!-- 프로필 사진은 초기 회원가입 시 등록 또는 수정 등록 가능 -->
+						</a>
+					</div>
+					<ul class="ml-3 list-unstyled">
+						<li><a href="/post/history" class="nav-link text-dark p-0"><b>${userName }</b></a></li>
+						<li><a href="/post/history" class="nav-link text-dark p-0 mt-1"><b>${userLoginId }</b></a> <!-- 게시글 작성자 피드로 이동 --></li>
+					</ul>					
+				</div>
+				<div>
+					<a href="#" class="btn btn-light btn-block">프로필 편집</a>
+				</div>
+					<div class="mt-3">
+						<c:forEach var="postDetail" items="${postList }">
+							<c:when test="${userId eq postDetail.post.userId }">
+								<div>
+									<img src="${postDetail.post.imagePath }">
+								</div>
+							</c:when>
+						</c:forEach>
+					</div>
+			</article>
 		</section>
 		<c:import url="/WEB-INF/jsp/include/footer.jsp" />
 	</div>
